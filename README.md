@@ -66,6 +66,7 @@ employee-management/
 - MySQL 5.7+
 - npm hoặc yarn
 - Modern web browser (Chrome, Firefox, Edge, Safari)
+- [Kịch bản](https://docs.google.com/document/d/1YH5zJ3-_56uQg1hmJVCqzR37HvRa6EhX/edit?usp=sharing&ouid=101321529302809232281&rtpof=true&sd=true)
 
 ## Hướng Dẫn Cài Đặt
 
