@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Hệ Thống Quản Lý Hồ Sơ Nhân Viên</title>
+
+<!-- Google Font hỗ trợ tiếng Việt -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../css/style.css">
+
+<style>
+body{
+    font-family: 'Roboto', Arial, sans-serif;
+}
+</style>
+
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+<div class="container">
+<h1>Employee Management</h1>
+<p>Hệ thống quản lý nhân viên</p>
+</div>
+</div>
+
+<!-- Navigation -->
+<div class="nav-menu">
+<div class="container">
+<ul>
+<li><a href="employeeList.html" class="active">Danh Sách Nhân Viên</a></li>
+<li><a href="addEmployee.html">Thêm Nhân Viên</a></li>
+<li><a href="javascript:void(0)" onclick="viewStatistics()">Thống Kê</a></li>
+</ul>
+</div>
+</div>
+
+<!-- Main Content -->
+<div class="container">
+
+<div id="alertSuccess" class="alert alert-success"></div>
+<div id="alertError" class="alert alert-error"></div>
+<div id="alertInfo" class="alert alert-info"></div>
+
+<div class="main-content">
+
+<h2 class="content-title">Danh Sách Nhân Viên</h2>
+
+<!-- Toolbar -->
+<div class="toolbar">
+
+<div class="toolbar-left">
+<a href="addEmployee.html" class="btn btn-primary">
+<span>+</span> Thêm Nhân Viên
+</a>
+</div>
+
+<div class="toolbar-right">
+
+<div class="search-box">
+<input 
+type="text"
+id="searchInput"
+placeholder="Tìm kiếm theo mã, tên hoặc email..."
+onkeyup="handleSearch()"
+>
+</div>
+
+<button class="btn btn-secondary" onclick="loadEmployees()">
+Tải Lại
+</button>
+
+</div>
+</div>
+
+<!-- Table -->
+<div class="table-container">
+
+<table>
+
+<thead>
+<tr>
+<th>Mã NV</th>
+<th>Họ Tên</th>
+<th>Phòng Ban</th>
+<th>Chức Vụ</th>
+<th>Số Điện Thoại</th>
+<th>Email</th>
+<th>Trạng Thái</th>
+<th>Hành Động</th>
+</tr>
+</thead>
+
+<tbody id="employeeTableBody">
+
+<tr>
+<td colspan="8" style="text-align:center;padding:40px;">
+<div class="spinner"></div>
+<p style="margin-top:15px;">Đang tải dữ liệu...</p>
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<!-- Empty -->
+<div id="emptyState" class="empty-state" style="display:none">
+
+<div class="empty-state-icon"></div>
+
+<div class="empty-state-title">
+Không có dữ liệu
+</div>
+
+<div class="empty-state-text">
+Không tìm thấy nhân viên nào
+</div>
+
+<a href="addEmployee.html" class="btn btn-primary">
+Thêm Nhân Viên Mới
+</a>
+
+</div>
+
+<!-- Statistics -->
+<div id="statistics"
+style="
+margin-top:30px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:15px;
+">
+</div>
+
+</div>
+</div>
+
+<!-- View Modal -->
+<div id="viewModal" class="modal">
+
+<div class="modal-content">
+
+<div class="modal-header">
+<h2>Chi Tiết Nhân Viên</h2>
+<button class="modal-close" onclick="closeModal('viewModal')">&times;</button>
+</div>
+
+<div class="modal-body">
+<div id="viewContent"></div>
+</div>
+
+<div class="modal-footer">
+<button class="btn btn-secondary" onclick="closeModal('viewModal')">Đóng</button>
+<button class="btn btn-primary" id="editBtn" onclick="editFromView()">Chỉnh Sửa</button>
+</div>
+
+</div>
+</div>
+
+<!-- Edit Modal -->
+<div id="editModal" class="modal">
+
+<div class="modal-content">
+
+<div class="modal-header">
+<h2>Chỉnh Sửa Thông Tin Nhân Viên</h2>
+<button class="modal-close" onclick="closeModal('editModal')">&times;</button>
+</div>
+
+<div class="modal-body">
+
+<form id="editForm" onsubmit="handleUpdateEmployee(event)">
+
+<input type="hidden" id="editEmployeeId">
+
+<div class="form-row">
+
+<div class="form-group">
+<label>Họ Tên</label>
+<input type="text" id="editFullName" required>
+</div>
+
+<div class="form-group">
+<label>Ngày Sinh</label>
+<input type="date" id="editBirthDate" required>
+</div>
+
+</div>
+
+<div class="form-row">
+
+<div class="form-group">
+
+<label>Giới Tính</label>
+
+<div class="form-radio-group">
+
+<label class="radio-label">
+<input type="radio" name="editGender" value="Nam" required> Nam
+</label>
+
+<label class="radio-label">
+<input type="radio" name="editGender" value="Nữ" required> Nữ
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="form-row">
+
+<div class="form-group">
+<label>Số Điện Thoại</label>
+<input type="text" id="editPhone" required>
+</div>
+
+<div class="form-group">
+<label>Email</label>
+<input type="email" id="editEmail" required>
+</div>
+
+</div>
+
+<div class="form-row">
+
+<div class="form-group">
+<label>Phòng Ban</label>
+<select id="editDepartment" required></select>
+</div>
+
+<div class="form-group">
+<label>Chức Vụ</label>
+<input type="text" id="editPosition" required>
+</div>
+
+</div>
+
+<div class="form-row">
+
+<div class="form-group">
+<label>Ngày Vào Làm</label>
+<input type="date" id="editHireDate" required>
+</div>
+
+<div class="form-group">
+<label>Trạng Thái</label>
+
+<select id="editStatus" required>
+
+<option value="Đang làm việc">Đang làm việc</option>
+
+<option value="Nghỉ việc">Nghỉ việc</option>
+
+<option value="Tạm dừng">Tạm dừng</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div class="modal-footer">
+
+<button type="button" class="btn btn-secondary" onclick="closeModal('editModal')">
+Hủy
+</button>
+
+<button type="submit" class="btn btn-success">
+Cập Nhật
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+</div>
+
+<!-- Delete Modal -->
+<div id="deleteModal" class="modal">
+
+<div class="modal-content">
+
+<div class="modal-header">
+<h2>Xác Nhận Xóa</h2>
+<button class="modal-close" onclick="closeModal('deleteModal')">&times;</button>
+</div>
+
+<div class="modal-body">
+
+<p>
+Bạn có chắc chắn muốn xóa nhân viên
+<strong id="deleteEmployeeName"></strong>
+không?
+</p>
+
+<p style="color:#dc3545;margin-top:15px;font-weight:500;">
+Hành động này không thể hoàn tác
+</p>
+
+</div>
+
+<div class="modal-footer">
+
+<button class="btn btn-secondary" onclick="closeModal('deleteModal')">
+Hủy
+</button>
+
+<button class="btn btn-danger" id="confirmDeleteBtn" onclick="confirmDelete()">
+Xóa
+</button>
+
+</div>
+
+</div>
+</div>
+
+<footer>
+<p>2026 Hệ Thống Quản Lý Nhân Sự</p>
+</footer>
+
+<script src="../js/employee.js"></script>
+
+</body>
+</html>
