@@ -5,14 +5,14 @@
 Module Quản lý Hồ sơ Nhân viên là một ứng dụng web toàn vẹn được xây dựng bằng kiến trúc MVC ( Model - View - Controller), mục đích giúp các tổ chức, doanh nghiệp quản lý thông tin nhân viên một cách hiệu quả.
 
 ### Các Chức Năng Chính:
-- ✅ Thêm nhân viên mới vào hệ thống
-- ✅ Xem danh sách toàn bộ nhân viên
-- ✅ Sửa thông tin nhân viên
-- ✅ Xóa nhân viên khỏi hệ thống
-- ✅ Tìm kiếm nhân viên theo mã, tên hoặc email
-- ✅ Xem chi tiết thông tin nhân viên
-- ✅ Xem thống kê nhân viên theo phòng ban
-- ✅ Quản lý trạng thái làm việc
+- Thêm nhân viên mới vào hệ thống
+- Xem danh sách toàn bộ nhân viên
+- Sửa thông tin nhân viên
+- Xóa nhân viên khỏi hệ thống
+- Tìm kiếm nhân viên theo mã, tên hoặc email
+- Xem chi tiết thông tin nhân viên
+- Xem thống kê nhân viên theo phòng ban
+- Quản lý trạng thái làm việc
 
 ## Công Nghệ Sử Dụng
 
