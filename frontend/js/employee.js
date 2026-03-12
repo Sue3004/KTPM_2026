@@ -550,7 +550,7 @@ async function handleAddEmployee(event) {
             document.getElementById('addEmployeeForm').reset();
             
             setTimeout(() => {
-                window.location.href = 'employeeList.html';
+                window.location.href = '/pages/employeeList.html ';
             }, 2000);
         } else {
             showAlert('error', 'Lỗi: ' + (data.errors ? data.errors.join('<br>') : data.message));
@@ -592,16 +592,9 @@ function escapeHtml(text) {
 
 function viewStatistics() {
 
-    // Cách cũ: reload lại trang -> dễ gây 404 trong DevTools
-    // window.location.href = 'employeeList.html#statistics';
+    window.location.href = '/pages/employeeList.html#statistics';
 
-    // Cách mới: cuộn tới phần statistics trong trang
-    const stats = document.getElementById("statistics");
-    if (stats) {
-        stats.scrollIntoView({
-            behavior: "smooth"
-        });
-    }
+    
 }
 
 // ============================================
