@@ -1,5 +1,5 @@
 // API Configuration
-const API_BASE_URL = 'http://localhost:3001/api';
+const API_BASE_URL = '/api';
 
 // ============================================
 // ALERT FUNCTIONS
@@ -144,13 +144,13 @@ function displayEmployees(employees) {
             <td>
                 <div class="action-buttons">
                     <button class="btn btn-sm btn-custom" onclick="viewEmployee(${emp.employee_id})">
-                        👁️ Xem
+                        Xem
                     </button>
                     <button class="btn btn-sm btn-primary" onclick="editEmployee(${emp.employee_id})">
-                        ✏️ Sửa
+                        Sửa
                     </button>
                     <button class="btn btn-sm btn-danger" onclick="deleteEmployee(${emp.employee_id}, '${escapeHtml(emp.full_name)}')">
-                        🗑️ Xóa
+                        Xóa
                     </button>
                 </div>
             </td>
@@ -367,7 +367,7 @@ async function handleUpdateEmployee(event) {
     } finally {
         const submitBtn = document.querySelector('#editForm button[type="submit"]');
         submitBtn.disabled = false;
-        submitBtn.innerHTML = '💾 Cập Nhật';
+        submitBtn.innerHTML = 'Cập Nhật';
     }
 }
 
@@ -406,7 +406,7 @@ async function confirmDelete() {
     } finally {
         const confirmBtn = document.getElementById('confirmDeleteBtn');
         confirmBtn.disabled = false;
-        confirmBtn.innerHTML = '🗑️ Xóa';
+        confirmBtn.innerHTML = 'Xóa';
     }
 }
 
@@ -449,15 +449,15 @@ function updateStatistics(employees) {
     
     statsContainer.innerHTML = `
         <div style="padding: 15px; background-color: var(--light-bg); border-radius: 4px; border-left: 4px solid var(--primary-color);">
-            <h4 style="margin: 0 0 10px 0; color: var(--primary-color);">👥 Tổng Nhân Viên</h4>
+            <h4 style="margin: 0 0 10px 0; color: var(--primary-color);">Tổng Nhân Viên</h4>
             <div style="font-size: 24px; font-weight: 600; color: #333;">${totalEmployees}</div>
         </div>
         <div style="padding: 15px; background-color: var(--light-bg); border-radius: 4px; border-left: 4px solid var(--success-color);">
-            <h4 style="margin: 0 0 10px 0; color: var(--success-color);">✓ Đang Làm Việc</h4>
+            <h4 style="margin: 0 0 10px 0; color: var(--success-color);">Đang Làm Việc</h4>
             <div style="font-size: 24px; font-weight: 600; color: #333;">${activeEmployees}</div>
         </div>
         <div style="padding: 15px; background-color: var(--light-bg); border-radius: 4px; border-left: 4px solid var(--info-color);">
-            <h4 style="margin: 0 0 10px 0; color: var(--info-color);">🏢 Phòng Ban</h4>
+            <h4 style="margin: 0 0 10px 0; color: var(--info-color);">Phòng Ban</h4>
             <div style="font-size: 24px; font-weight: 600; color: #333;">${departments}</div>
         </div>
     `;
@@ -591,7 +591,17 @@ function escapeHtml(text) {
 }
 
 function viewStatistics() {
-    window.location.href = 'employeeList.html#statistics';
+
+    // Cách cũ: reload lại trang -> dễ gây 404 trong DevTools
+    // window.location.href = 'employeeList.html#statistics';
+
+    // Cách mới: cuộn tới phần statistics trong trang
+    const stats = document.getElementById("statistics");
+    if (stats) {
+        stats.scrollIntoView({
+            behavior: "smooth"
+        });
+    }
 }
 
 // ============================================
